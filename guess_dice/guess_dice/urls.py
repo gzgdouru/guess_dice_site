@@ -23,6 +23,6 @@ urlpatterns = [
 
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^nums/(?P<period_count>\d+)/$', PeriodStatsView.as_view(), name="nums_stats"),
-    url(r'^probability/(?P<prediction_num>(3|5|7|9|11))/$', ProbabilityStatsView.as_view(), name="probability_stats"),
+    url(r'^probability/(?P<prediction_num>(0|3|5|7|9|11))/$', ProbabilityStatsView.as_view(), name="probability_stats"),
     url(r'^prediction/$', PredictionView.as_view(), name="prediction"),
 ]

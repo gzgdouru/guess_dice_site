@@ -6,11 +6,12 @@ from django.db import connection
 DiceInfo = namedtuple("DiceInfo", ["period", "num_1", "num_2", "num_3", "total", "prediction"])
 
 PREDICTION_DICT = {
-    "3" : "three_prediction",
-    "5" : "five_prediction",
-    "7" : "seven_prediction",
-    "9" : "nine_prediction",
-    "11" : "eleven_prediction",
+    "0": "custom_prediction",
+    "3": "three_prediction",
+    "5": "five_prediction",
+    "7": "seven_prediction",
+    "9": "nine_prediction",
+    "11": "eleven_prediction",
 }
 
 
@@ -65,6 +66,22 @@ def get_day_stats():
           GROUP BY days
     '''
     cursor.execute(sql)
-    [data[row[0]].append(row[1]) for row in  cursor.fetchall()]
+    [data[row[0]].append(row[1]) for row in cursor.fetchall()]
     return dict(sorted(data.items(), key=itemgetter(0), reverse=True))
 
+
+def custom_prediction(records):
+    # 连续三期相同
+    if is_period_same(records[:3], "大"):
+        return "大"
+    elif is_period_same(records[:3], "小"):
+        return "小"
+
+    # 连续两期相同
+    if is_period_same(records[:2], "大"):
+        return "小"
+    elif is_period_same(records[:2], "小"):
+        return "大"
+
+    # 都不相同
+    return value_convert(records[0].total)

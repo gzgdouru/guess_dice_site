@@ -18,6 +18,9 @@
                 <li {% if request.path == '/' %}class="active"{% endif %}>
                     <a href="/">首页</a>
                 </li>
+                <li {% if request.path|slice:'15' == '/probability/0/' %}class="active"{% endif %}>
+                    <a href="{% url 'probability_stats' 0 %}?period_count={{ period_count }}">自定义预测统计</a>
+                </li>
                 <li {% if request.path|slice:'15' == '/probability/3/' %}class="active"{% endif %}>
                     <a href="{% url 'probability_stats' 3 %}?period_count={{ period_count }}">三期预测统计</a>
                 </li>

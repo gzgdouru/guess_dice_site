@@ -6,7 +6,7 @@ from collections import Counter
 from operator import itemgetter
 
 from .models import Dice
-from .utils import result_prediction, DiceInfo, value_convert, PREDICTION_DICT, get_day_stats
+from .utils import result_prediction, DiceInfo, value_convert, PREDICTION_DICT, get_day_stats, custom_prediction
 
 
 # Create your views here.
@@ -43,7 +43,7 @@ class IndexView(View):
             "period_count": period_count,
             "history_records": history_records,
             "total_counter": total_counter,
-            "days_stats" : dict(days_stats),
+            "days_stats": dict(days_stats),
         })
 
 
@@ -100,13 +100,14 @@ class PredictionView(View):
         dices = Dice.objects.all().order_by("-period")[:11]
         period = int(dices[0].period) + 1
         predictions = []
-        predictions.append((3, result_prediction(dices[:3])))
-        predictions.append((5, result_prediction(dices[:5])))
-        predictions.append((7, result_prediction(dices[:7])))
-        predictions.append((9, result_prediction(dices[:9])))
-        predictions.append((11, result_prediction(dices[:11])))
+        predictions.append(("自定义", custom_prediction(dices[:3])))
+        predictions.append(("三期统计", result_prediction(dices[:3])))
+        predictions.append(("五期统计", result_prediction(dices[:5])))
+        predictions.append(("七期统计", result_prediction(dices[:7])))
+        predictions.append(("九期统计", result_prediction(dices[:9])))
+        predictions.append(("十一期统计", result_prediction(dices[:11])))
 
         return render(request, "prediction.html", context={
-            "period" : period,
+            "period": period,
             "predictions": predictions,
         })

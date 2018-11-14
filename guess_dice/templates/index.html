@@ -78,6 +78,7 @@
                     <th>七期预期</th>
                     <th>九期预期</th>
                     <th>十一期预期</th>
+                    <th>自定义预期</th>
                     {% for history_record in history_records %}
                         <tr {% if history_record.total|valueConvert == history_record.three_prediction %}class="success"{% endif %}>
                             <td>{{ history_record.period }}</td>
@@ -90,6 +91,7 @@
                             <td>{{ history_record.seven_prediction }}</td>
                             <td>{{ history_record.nine_prediction }}</td>
                             <td>{{ history_record.eleven_prediction }}</td>
+                             <td>{{ history_record.custom_prediction }}</td>
                         </tr>
                     {% endfor %}
                 </table>

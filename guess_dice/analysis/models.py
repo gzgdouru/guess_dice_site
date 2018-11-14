@@ -14,6 +14,7 @@ class Dice(models.Model):
     seven_prediction = models.CharField(max_length=16, verbose_name="七期预测", default="")
     nine_prediction = models.CharField(max_length=16, verbose_name="九期预测", default="")
     eleven_prediction = models.CharField(max_length=16, verbose_name="十一期预测", default="")
+    custom_prediction = models.CharField(max_length=16, verbose_name="自定义", default="")
     add_time = models.DateTimeField(verbose_name="添加时间", auto_now_add=True)
 
     class Meta:
