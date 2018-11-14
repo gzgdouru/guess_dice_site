@@ -13,7 +13,7 @@ from fake_useragent import UserAgent
 
 from mysqlV1 import MysqlManager
 from log_settings import logger
-from guessDiceUtils import result_prediction
+from guessDiceUtils import result_prediction, custom_prediction
 
 LK3Info = namedtuple("LK3Info", ["period", "num_1", "num_2", "num_3"])
 
@@ -105,11 +105,13 @@ def parse_info():
                 seven_prediction = result_prediction(history_records[:7])
                 nine_prediction = result_prediction(history_records[:9])
                 eleven_prediction = result_prediction(history_records[:11])
+                myPrediction = custom_prediction(history_records[:3])
                 total = sum(nums)
                 mysqldb.insert("tb_guess_dice", period=period, num_1=nums[0], num_2=nums[1], num_3=nums[2],
                                add_time=datetime.now(), total=total, three_prediction=three_prediction,
                                five_prediction=five_prediction, seven_prediction=seven_prediction,
-                               nine_prediction=nine_prediction, eleven_prediction=eleven_prediction)
+                               nine_prediction=nine_prediction, eleven_prediction=eleven_prediction,
+                               custom_prediction=myPrediction)
                 logger.info("记录[{0}({1}, {2}, {3})]保存成功.".format(period, nums[0], nums[1], nums[2]))
     except Exception as e:
         logger.error("提取信息出错, 错误原因:{0}!".format(e))

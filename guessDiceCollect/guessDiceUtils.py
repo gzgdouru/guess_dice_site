@@ -39,3 +39,20 @@ def is_period_same(history_records, value="大"):
 
 def get_value_convert(totalCount):
     return "大" if totalCount > 10 else "小"
+
+
+def custom_prediction(records):
+    #连续三期相同
+    if is_period_same(records[:3], "大"):
+        return "大"
+    elif is_period_same(records[:3], "小"):
+        return "小"
+
+    #连续两期相同
+    if is_period_same(records[:2], "大"):
+        return "小"
+    elif is_period_same(records[:2], "小"):
+        return "大"
+
+    #都不相同
+    return get_value_convert(records[0].total)
