@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load analysis_extras %}
+
+{% block title %}首页{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-4" style="margin: 10px 0;">
+            {#            <div class="row">#}
+            {#                <span class="btn btn-sm btn-primary col-sm-3" style="margin-right: 5px;"#}
+            {#                      onclick="nums_reload()">刷新</span>#}
+            {#                <input class="col-sm-8" name="nums" value="{{ period|add:'1' }}-->{{ prediction }}" readonly>#}
+            {#            </div>#}
+
+            <div class="row">
+                <div class="panel panel-default" style="margin: 10px 0;">
+                    <div class="panel-heading">大小统计至{{ period }}(共{{ period_count }}期)</div>
+                    <table class="table">
+                        <th>日期</th>
+                        <th>小(次数)</th>
+                        <th>大(次数)</th>
+                        {% for key, value in days_stats.items %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                <td>{{ value.0 }}</td>
+                                <td>{{ value.1 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="panel panel-default" style="margin: 10px 0;">
+                    <div class="panel-heading">号码统计至{{ period }}(共{{ period_count }}期)</div>
+                    <table class="table">
+                        <th>号码</th>
+                        <th>次数</th>
+                        {% for num in nums %}
+                            <tr>
+                                <td>{{ num.0 }}</td>
+                                <td>{{ num.1 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="panel panel-default" style="margin: 10px 0;">
+                    <div class="panel-heading">和值统计至{{ period }}(共{{ period_count }}期)</div>
+                    <table class="table">
+                        <th>和值</th>
+                        <th>次数</th>
+                        {% for key, value in total_counter.items %}
+                            <tr>
+                                <td>{{ key }}</td>
+                                <td>{{ value }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-8">
+            <div class="panel panel-default" style="margin: 10px 0;">
+                <div class="panel-heading">往期回顾</div>
+                <table class="table">
+                    <th>周期</th>
+                    <th>号码1</th>
+                    <th>号码2</th>
+                    <th>号码3</th>
+                    <th>和值</th>
+                    <th>三期预期</th>
+                    <th>五期预期</th>
+                    <th>七期预期</th>
+                    <th>九期预期</th>
+                    <th>十一期预期</th>
+                    {% for history_record in history_records %}
+                        <tr {% if history_record.total|valueConvert == history_record.three_prediction %}class="success"{% endif %}>
+                            <td>{{ history_record.period }}</td>
+                            <td>{{ history_record.num_1 }}</td>
+                            <td>{{ history_record.num_2 }}</td>
+                            <td>{{ history_record.num_3 }}</td>
+                            <td>{{ history_record.total }}</td>
+                            <td>{{ history_record.three_prediction }}</td>
+                            <td>{{ history_record.five_prediction }}</td>
+                            <td>{{ history_record.seven_prediction }}</td>
+                            <td>{{ history_record.nine_prediction }}</td>
+                            <td>{{ history_record.eleven_prediction }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_js %}
+    <script>
+        function nums_reload() {
+            setTimeout(function () {
+                window.location.href = window.location.href;
+            }, 1000);
+        }
+    </script>
+{% endblock %}

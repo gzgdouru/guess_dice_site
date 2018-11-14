@@ -1,0 +1,88 @@
+{% load analysis_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>概率统计</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="row">
+            <ul class="nav nav-pills nav-justified">
+                <li {% if request.path == '/' %}class="active"{% endif %}>
+                    <a href="/">首页</a>
+                </li>
+                <li {% if request.path == '/nums/2/' %}class="active"{% endif %}>
+                    <a href="{% url 'nums_stats' 2 %}">2期统计</a>
+                </li>
+                <li {% if request.path == '/nums/3/' %}class="active"{% endif %}>
+                    <a href="{% url 'nums_stats' 3 %}">3期统计</a>
+                </li>
+                <li {% if request.path == '/nums/5/' %}class="active"{% endif %}>
+                    <a href="{% url 'nums_stats' 5 %}">5期统计</a>
+                </li>
+                <li {% if request.path == '/probability/10/' %}class="active"{% endif %}>
+                    <a href="{% url 'nums_stats' 10 %}">10期统计</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="row">
+        <div class="col-sm-4" style="margin: 10px 0;">
+            <div class="row">
+                <div class="panel panel-default" style="margin: 10px 0;">
+                    <div class="panel-heading">{{ first_period }}-{{ last_period }}</div>
+                    <table class="table">
+                        <th>号码</th>
+                        <th>次数</th>
+                        {% for num_stats in numsStats %}
+                            <tr>
+                                <td>{{ num_stats.0 }}</td>
+                                <td>{{ num_stats.1 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="panel panel-default" style="margin: 10px 0;">
+                <div class="panel-heading">往期回顾</div>
+                <table class="table">
+                    <th>周期</th>
+                    <th>号码1</th>
+                    <th>号码2</th>
+                    <th>号码3</th>
+                    <th>和值</th>
+                    <th>预期</th>
+                    {% for dice in dices %}
+                        <tr {% if dice.total|valueConvert == dice.prediction %}class="success"{% endif %}>
+                            <td>{{ dice.period }}</td>
+                            <td>{{ dice.num_1 }}</td>
+                            <td>{{ dice.num_2 }}</td>
+                            <td>{{ dice.num_3 }}</td>
+                            <td>{{ dice.total }}</td>
+                            <td>{{ dice.prediction }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="row">
+            <hr>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

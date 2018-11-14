@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}结果预测{% endblock %}
+
+{% block content %}
+    <div class="row" style="margin: 10px 0;">
+        <div class="col-sm-12">
+            <table class="table table-hover">
+                <tr>
+                    <th>期号</th>
+                    <th>期数</th>
+                    <th>预测</th>
+                </tr>
+
+                {% for prediction in predictions %}
+                    <tr>
+                        <td>{{ period }}</td>
+                        <td>{{ prediction.0 }}</td>
+                        <td>{{ prediction.1 }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
