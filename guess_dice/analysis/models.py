@@ -14,7 +14,13 @@ class Dice(models.Model):
     seven_prediction = models.CharField(max_length=16, verbose_name="七期预测", default="")
     nine_prediction = models.CharField(max_length=16, verbose_name="九期预测", default="")
     eleven_prediction = models.CharField(max_length=16, verbose_name="十一期预测", default="")
-    custom_prediction = models.CharField(max_length=16, verbose_name="自定义", default="")
+    custom_prediction = models.CharField(max_length=16, verbose_name="自定义预测", default="")
+    three_balance = models.DecimalField(max_digits=13, decimal_places=2, default=0.00, verbose_name="三期余额")
+    five_balance = models.DecimalField(max_digits=13, decimal_places=2, default=0.00, verbose_name="五期余额")
+    seven_balance = models.DecimalField(max_digits=13, decimal_places=2, default=0.00, verbose_name="七期余额")
+    nine_balance = models.DecimalField(max_digits=13, decimal_places=2, default=0.00, verbose_name="九期余额")
+    eleven_balance = models.DecimalField(max_digits=13, decimal_places=2, default=0.00, verbose_name="十一期余额")
+    custom_balance = models.DecimalField(max_digits=13, decimal_places=2, default=0.00, verbose_name="自定义余额")
     add_time = models.DateTimeField(verbose_name="添加时间", auto_now_add=True)
 
     class Meta:

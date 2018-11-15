@@ -16,12 +16,13 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from analysis.views import IndexView, PeriodStatsView, ProbabilityStatsView, PredictionView
+from analysis.views import IndexView, PeriodStatsView, ProbabilityStatsView, PredictionView, BaseStatsView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^base/$', BaseStatsView.as_view(), name="base_stats"),
     url(r'^nums/(?P<period_count>\d+)/$', PeriodStatsView.as_view(), name="nums_stats"),
     url(r'^probability/(?P<prediction_num>(0|3|5|7|9|11))/$', ProbabilityStatsView.as_view(), name="probability_stats"),
     url(r'^prediction/$', PredictionView.as_view(), name="prediction"),

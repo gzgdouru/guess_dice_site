@@ -18,7 +18,7 @@ class IndexView(View):
         total_counter = {}
         period_count = 0
 
-        for dice in Dice.objects.all().order_by("-id"):
+        for dice in Dice.objects.all().order_by("-period"):
             period_count += 1
             total_counter[dice.total] = total_counter.get(dice.total, 0) + 1
 
@@ -44,6 +44,35 @@ class IndexView(View):
             "history_records": history_records,
             "total_counter": total_counter,
             "days_stats": dict(days_stats),
+        })
+
+
+class BaseStatsView(View):
+    def get(self, request):
+        period = None
+        total_counter = {}
+        period_count = 0
+        num_list = []
+
+        for dice in Dice.objects.all().order_by("-period"):
+            period_count += 1
+            if not period:
+                period = int(dice.period)
+            total_counter[dice.total] = total_counter.get(dice.total, 0) + 1
+            num_list.extend([dice.num_1, dice.num_2, dice.num_3])
+        total_counter = dict(sorted(total_counter.items(), key=itemgetter(1), reverse=True))
+        numsCounter = Counter(num_list)
+        nums = numsCounter.most_common()
+        del num_list
+
+        days_stats = get_day_stats()
+
+        return render(request, "base-stats.html", context={
+            "period": period,
+            "period_count": period_count,
+            "days_stats": days_stats,
+            "nums": nums,
+            "total_counter": total_counter,
         })
 
 
