@@ -7,7 +7,6 @@ class MarkVisitIpMiddleware(MiddlewareMixin):
     def process_request(self, request):
         try:
             realIp = request.META["HTTP_X_FORWARDED_FOR"]
-            print(request.META)
             realIp = realIp.split(",")[0]
         except:
             realIp = request.META["REMOTE_ADDR"]
