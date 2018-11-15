@@ -1,11 +1,12 @@
 from datetime import datetime
-
-from django.shortcuts import render
-from django.views.generic import View
 from collections import Counter
 from operator import itemgetter
 
-from .models import Dice
+from django.shortcuts import render
+from django.views.generic import View
+from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
+
+from .models import Dice, ClientIp
 from .utils import result_prediction, DiceInfo, value_convert, PREDICTION_DICT, get_day_stats, custom_prediction
 
 
@@ -139,4 +140,18 @@ class PredictionView(View):
         return render(request, "prediction.html", context={
             "period": period,
             "predictions": predictions,
+        })
+
+
+class VisitShowView(View):
+    def get(self, request):
+        all_visitors = ClientIp.objects.all().order_by("-add_time")
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+        p = Paginator(all_visitors, 50, request=request)
+        visitors = p.page(page)
+        return render(request, "visitors-show.html", context={
+            "visitors" : visitors,
         })
