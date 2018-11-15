@@ -1,4 +1,5 @@
 from collections import Counter, namedtuple
+from decimal import Decimal
 
 DiceInfo = namedtuple("DiceInfo", ["period", "num_1", "num_2", "num_3", "total", "prediction"])
 
@@ -61,7 +62,7 @@ def custom_prediction(records):
 def get_money(prediction, total, balance, is_same_day):
     balance = balance if is_same_day else 0
     if get_value_convert(total) == prediction:
-        balance = balance + 1.96
+        balance = balance + Decimal.from_float(1.96)
     else:
-        balance = balance - 2
+        balance = balance - Decimal.from_float(2.00)
     return balance
