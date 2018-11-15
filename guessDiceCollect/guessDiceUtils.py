@@ -62,7 +62,7 @@ def custom_prediction(records):
 def get_money(prediction, total, balance, is_same_day):
     balance = balance if is_same_day else 0
     if get_value_convert(total) == prediction:
-        balance = balance + Decimal.from_float(1.96)
+        balance += Decimal("1.96")
     else:
-        balance = balance - Decimal.from_float(2.00)
+        balance -= Decimal("2.00")
     return balance
