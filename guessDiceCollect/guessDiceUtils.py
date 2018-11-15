@@ -13,7 +13,7 @@ def result_prediction(history_records):
     elif is_period_same(history_records[:3], "小"):
         return "小"
 
-    #按大小个数分析
+    # 按大小个数分析
     maxCount, minCount = get_maxmin_count(history_records)
     return "小" if maxCount > minCount else "大"
 
@@ -42,17 +42,26 @@ def get_value_convert(totalCount):
 
 
 def custom_prediction(records):
-    #连续三期相同
+    # 连续三期相同
     if is_period_same(records[:3], "大"):
         return "大"
     elif is_period_same(records[:3], "小"):
         return "小"
 
-    #连续两期相同
+    # 连续两期相同
     if is_period_same(records[:2], "大"):
         return "小"
     elif is_period_same(records[:2], "小"):
         return "大"
 
-    #都不相同
+    # 都不相同
     return get_value_convert(records[0].total)
+
+
+def get_money(prediction, total, balance, is_same_day):
+    balance = balance if is_same_day else 0
+    if get_value_convert(total) == prediction:
+        balance += 1.96
+    else:
+        balance -= 2
+    return balance
