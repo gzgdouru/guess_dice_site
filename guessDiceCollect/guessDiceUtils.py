@@ -61,7 +61,7 @@ def custom_prediction(records):
 def get_money(prediction, total, balance, is_same_day):
     balance = balance if is_same_day else 0
     if get_value_convert(total) == prediction:
-        balance += 1.96
+        balance = balance + 1.96
     else:
-        balance -= 2
+        balance = balance - 2
     return balance
