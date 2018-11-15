@@ -28,3 +28,15 @@ class Dice(models.Model):
 
     def __str__(self):
         return self.period
+
+
+class ClientIp(models.Model):
+    ip = models.CharField(max_length=64, verbose_name="客户端ip")
+    url = models.CharField(max_length=255, verbose_name="访问链接", default="")
+    add_time = models.DateTimeField(verbose_name="添加时间", auto_now_add=True)
+
+    class Meta:
+        db_table = "tb_client_ip"
+
+    def __str__(self):
+        return self.ip
