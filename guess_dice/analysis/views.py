@@ -2,12 +2,13 @@ from datetime import datetime
 from collections import Counter
 from operator import itemgetter
 
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 from django.views.generic import View
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Dice, ClientIp
-from .utils import result_prediction, DiceInfo, value_convert, PREDICTION_DICT, get_day_stats, custom_prediction
+from .utils import result_prediction, DiceInfo, value_convert, PREDICTION_DICT, get_day_stats, custom_prediction, \
+    get_balance_stats_records
 
 
 # Create your views here.
@@ -74,6 +75,14 @@ class BaseStatsView(View):
             "days_stats": days_stats,
             "nums": nums,
             "total_counter": total_counter,
+        })
+
+
+class BalanceStatsView(View):
+    def get(self, request):
+        balance_records = get_balance_stats_records()
+        return render(request, "balance-stats.html", context={
+            "balance_records": balance_records,
         })
 
 
@@ -153,5 +162,5 @@ class VisitShowView(View):
         p = Paginator(all_visitors, 50, request=request)
         visitors = p.page(page)
         return render(request, "visitors-show.html", context={
-            "visitors" : visitors,
+            "visitors": visitors,
         })

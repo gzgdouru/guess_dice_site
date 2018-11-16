@@ -70,6 +70,40 @@ def get_day_stats():
     return dict(sorted(data.items(), key=itemgetter(0), reverse=True))
 
 
+def get_all_date():
+    cursor = connection.cursor()
+    sql = "SELECT DISTINCT DATE_FORMAT(add_time, '%Y%m%d') FROM tb_guess_dice"
+    cursor.execute(sql)
+    date_list = [row[0] for row in cursor.fetchall()]
+    return reversed(date_list)
+
+
+def get_balance_stats_records():
+    balance_reocrds = []
+    cursor = connection.cursor()
+    for d in get_all_date():
+        sql = '''
+            select {0}, three_balance, five_balance, seven_balance, nine_balance, eleven_balance, custom_balance from tb_guess_dice
+            where DATE_FORMAT(add_time, '%Y%m%d') = {0}
+            order by period desc limit 1
+        '''.format(d)
+        cursor.execute(sql)
+        reocrd = list(cursor.fetchone())
+
+        sql = '''
+            select max(three_balance), min(three_balance), max(five_balance), min(five_balance),
+                max(seven_balance), min(seven_balance), max(nine_balance), min(nine_balance),
+                max(eleven_balance), min(eleven_balance), max(custom_balance), min(custom_balance)
+            from tb_guess_dice
+            where DATE_FORMAT(add_time, '%Y%m%d') = {0}
+        '''.format(d)
+        cursor.execute(sql)
+        reocrd.extend(cursor.fetchone())
+
+        balance_reocrds.append(reocrd)
+    return balance_reocrds
+
+
 def custom_prediction(records):
     # 连续三期相同
     if is_period_same(records[:3], "大"):

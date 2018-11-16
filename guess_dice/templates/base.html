@@ -20,6 +20,9 @@
                 <li {% if request.path == '/base/' %}class="active"{% endif %}>
                     <a href="{% url 'base_stats' %}">基础统计</a>
                 </li>
+                <li {% if request.path == '/balance/' %}class="active"{% endif %}>
+                    <a href="{% url 'balance_stats' %}">余额统计</a>
+                </li>
                 <li>
                     <a href="{% url 'nums_stats' 2 %}">号码统计</a>
                 </li>
