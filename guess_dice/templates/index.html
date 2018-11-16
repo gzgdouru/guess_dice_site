@@ -27,55 +27,55 @@
                     <th>九期余额</th>
                     <th>十一期余额</th>
                     <th>自定义余额</th>
-                    {% for history_record in history_records %}
+                    {% for dice in dices %}
                         <tr>
-                            <td>{{ history_record.period }}</td>
-                            <td>{{ history_record.num_1 }}</td>
-                            <td>{{ history_record.num_2 }}</td>
-                            <td>{{ history_record.num_3 }}</td>
-                            <td>{{ history_record.total }}</td>
+                            <td>{{ dice.period }}</td>
+                            <td>{{ dice.num_1 }}</td>
+                            <td>{{ dice.num_2 }}</td>
+                            <td>{{ dice.num_3 }}</td>
+                            <td>{{ dice.total }}</td>
                             <td>
-                                {{ history_record.three_prediction }}
-                                {% if history_record.total|valueConvert == history_record.three_prediction %}
+                                {{ dice.three_prediction }}
+                                {% if dice.total|valueConvert == dice.three_prediction %}
                                     √
                                 {% endif %}
                             </td>
                             <td>
-                                {{ history_record.five_prediction }}
-                                {% if history_record.total|valueConvert == history_record.five_prediction %}
+                                {{ dice.five_prediction }}
+                                {% if dice.total|valueConvert == dice.five_prediction %}
                                     √
                                 {% endif %}
                             </td>
                             <td>
-                                {{ history_record.seven_prediction }}
-                                {% if history_record.total|valueConvert == history_record.seven_prediction %}
+                                {{ dice.seven_prediction }}
+                                {% if dice.total|valueConvert == dice.seven_prediction %}
                                     √
                                 {% endif %}
                             </td>
                             <td>
-                                {{ history_record.nine_prediction }}
-                                {% if history_record.total|valueConvert == history_record.nine_prediction %}
+                                {{ dice.nine_prediction }}
+                                {% if dice.total|valueConvert == dice.nine_prediction %}
                                     √
                                 {% endif %}
                             </td>
                             <td>
-                                {{ history_record.eleven_prediction }}
-                                {% if history_record.total|valueConvert == history_record.eleven_prediction %}
+                                {{ dice.eleven_prediction }}
+                                {% if dice.total|valueConvert == dice.eleven_prediction %}
                                     √
                                 {% endif %}
                             </td>
                             <td>
-                                {{ history_record.custom_prediction }}
-                                 {% if history_record.total|valueConvert == history_record.custom_prediction %}
+                                {{ dice.custom_prediction }}
+                                 {% if dice.total|valueConvert == dice.custom_prediction %}
                                     √
                                 {% endif %}
                             </td>
-                            <td>{{ history_record.three_balance }}</td>
-                            <td>{{ history_record.five_balance }}</td>
-                            <td>{{ history_record.seven_balance }}</td>
-                            <td>{{ history_record.nine_balance }}</td>
-                            <td>{{ history_record.eleven_balance }}</td>
-                            <td>{{ history_record.custom_balance }}</td>
+                            <td>{{ dice.three_balance }}</td>
+                            <td>{{ dice.five_balance }}</td>
+                            <td>{{ dice.seven_balance }}</td>
+                            <td>{{ dice.nine_balance }}</td>
+                            <td>{{ dice.eleven_balance }}</td>
+                            <td>{{ dice.custom_balance }}</td>
                         </tr>
                     {% endfor %}
                 </table>

@@ -15,37 +15,9 @@ from .utils import result_prediction, DiceInfo, value_convert, PREDICTION_DICT, 
 
 class IndexView(View):
     def get(self, request):
-        num_list = []
-        history_records = []
-        total_counter = {}
-        period_count = 0
-
-        for dice in Dice.objects.all().order_by("-period"):
-            period_count += 1
-            total_counter[dice.total] = total_counter.get(dice.total, 0) + 1
-
-            if len(history_records) < 25:
-                history_records.append(dice)
-
-            num_list.extend([dice.num_1, dice.num_2, dice.num_3])
-        total_counter = dict(sorted(total_counter.items(), key=itemgetter(1), reverse=True))
-
-        period = int(history_records[0].period)
-        numsCounter = Counter(num_list)
-        nums = numsCounter.most_common()
-        del num_list
-
-        prediction = result_prediction(history_records[:3])
-        days_stats = get_day_stats()
-
+        dices = Dice.objects.all().order_by("-period")[:25]
         return render(request, "index.html", context={
-            "prediction": prediction,
-            "nums": nums,
-            "period": period,
-            "period_count": period_count,
-            "history_records": history_records,
-            "total_counter": total_counter,
-            "days_stats": dict(days_stats),
+            "dices": dices,
         })
 
 
