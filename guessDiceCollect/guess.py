@@ -14,6 +14,7 @@ from fake_useragent import UserAgent
 from mysqlV1 import MysqlManager
 from log_settings import logger
 from guessDiceUtils import result_prediction, custom_prediction, get_money
+from utils import send_sms
 
 LK3Info = namedtuple("LK3Info", ["period", "num_1", "num_2", "num_3"])
 
@@ -28,6 +29,7 @@ mysqlConfig = {
 }
 mysqldb = MysqlManager(**mysqlConfig)
 ua = UserAgent()
+mobile_list = ["13590009594"]
 
 
 def get_nums(value):
@@ -118,7 +120,13 @@ def parse_info():
                     nine_prediction = result_prediction(history_records[:9])
                     eleven_prediction = result_prediction(history_records[:11])
                     customPrediction = custom_prediction(history_records[:3])
+
                     total = sum(nums)
+                    if total in (10, 11, 12):
+                        for mobile in mobile_list:
+                            open_time = datetime.now().strftime("%Y-%m-%d %H%M%S")
+                            send_sms(mobile, period, total, open_time)
+
                     three_balance = get_money(three_prediction, total, history_records[0].three_balance, is_same_day)
                     five_balance = get_money(five_prediction, total, history_records[0].five_balance, is_same_day)
                     seven_balance = get_money(seven_prediction, total, history_records[0].seven_balance, is_same_day)
