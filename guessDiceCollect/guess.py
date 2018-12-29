@@ -103,6 +103,8 @@ def parse_info():
             for record in records:
                 nums = get_nums(record["openCode"])
                 period = record["uniqueIssueNumber"]
+                open_time = record["officialOpenTime"]
+                print(open_time)
                 if mysqldb.exist("tb_guess_dice", conditions="period='{0}'".format(period)):
                     logger.info("记录[{0}({1}, {2}, {3})]已存在.".format(period, nums[0], nums[1], nums[2]))
                     break  # 最新一期存在的话, 后面缺的就不补了
