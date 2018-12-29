@@ -81,6 +81,7 @@ def get_records(url, headers):
             for node in item_nodes:
                 record = {}
                 record["openCode"] = node.xpath("openCode/text()")[0]
+                record["officialOpenTimeEpoch"] = node.xpath("officialOpenTimeEpoch/text()")[0]
                 record["uniqueIssueNumber"] = node.xpath("uniqueIssueNumber/text()")[0]
                 records.append(record)
         else:
