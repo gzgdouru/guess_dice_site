@@ -31,7 +31,6 @@ mysqldb = MysqlManager(**mysqlConfig)
 ua = UserAgent()
 mobile_list = ["13590009594"]
 
-
 def get_nums(value):
     nums = [int(num) for num in str(value).split(",")]
     return nums
@@ -103,8 +102,7 @@ def parse_info():
             for record in records:
                 nums = get_nums(record["openCode"])
                 period = record["uniqueIssueNumber"]
-                open_time = record["officialOpenTime"]
-                print(open_time)
+                open_time = datetime.fromtimestamp(int(record["officialOpenTimeEpoch"])).strftime("%Y-%m-%d %H:%M:%S")
                 if mysqldb.exist("tb_guess_dice", conditions="period='{0}'".format(period)):
                     logger.info("记录[{0}({1}, {2}, {3})]已存在.".format(period, nums[0], nums[1], nums[2]))
                     break  # 最新一期存在的话, 后面缺的就不补了
@@ -125,9 +123,7 @@ def parse_info():
 
                     total = sum(nums)
                     if total == 17:
-                        for mobile in mobile_list:
-                            open_time = datetime.now().strftime("%Y-%m-%d %H%M%S")
-                            send_sms(mobile, period, str(nums), open_time)
+                        [send_sms(mobile, period, str(nums), open_time) for mobile in mobile_list]
 
                     three_balance = get_money(three_prediction, total, history_records[0].three_balance, is_same_day)
                     five_balance = get_money(five_prediction, total, history_records[0].five_balance, is_same_day)

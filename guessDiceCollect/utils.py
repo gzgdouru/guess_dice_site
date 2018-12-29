@@ -2,6 +2,7 @@ import requests
 import json
 from datetime import datetime
 
+from  log_settings import logger
 
 def send_sms(mobile, period, code, open_time):
     url = r'https://api.mysubmail.com/message/xsend'
@@ -23,10 +24,10 @@ def send_sms(mobile, period, code, open_time):
     response = session.post(url, data=data)
     res = json.loads(response.text)
     if res.get("status") != "error":
-        print(f"发送短信给用户[{mobile}]成功.")
+        logger.info(f"发送短信给用户[{mobile}]成功.")
     else:
         err = res.get("msg")
-        print(f"发送短信给用户[{mobile}]失败, 原因:{err}!")
+        logger.info(f"发送短信给用户[{mobile}]失败, 原因:{err}!")
 
 
 def send_email(email, mobile, code, open_time):
@@ -48,10 +49,10 @@ def send_email(email, mobile, code, open_time):
     response = requests.post(url, data=data)
     res = json.loads(response.text)
     if res.get("status") != "error":
-        print(f"发送邮件给用户[{email}]成功.")
+        logger.info(f"发送邮件给用户[{email}]成功.")
     else:
         err = res.get("msg")
-        print(f"发送邮件给用户[{email}]失败, 原因:{err}!")
+        logger.info(f"发送邮件给用户[{email}]失败, 原因:{err}!")
 
 
 if __name__ == "__main__":
