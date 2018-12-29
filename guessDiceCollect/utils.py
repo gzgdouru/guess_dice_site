@@ -30,7 +30,7 @@ def send_sms(mobile, period, code, open_time):
         logger.info(f"发送短信给用户[{mobile}]失败, 原因:{err}!")
 
 
-def send_email(email, mobile, code, open_time):
+def send_email(email, period, code, open_time):
     url = r'https://api.mysubmail.com/mail/xsend'
     params = {
         "period": period,
@@ -41,7 +41,6 @@ def send_email(email, mobile, code, open_time):
     data = {
         "appid": "13955",
         "to": email,
-        "subject": "106号码提醒",
         "project": "6q0KG2",
         "vars": json.dumps(params),
         "signature": "2d21d55a5bdc018fbf7123544264dd9b",
@@ -56,8 +55,8 @@ def send_email(email, mobile, code, open_time):
 
 
 if __name__ == "__main__":
-    email = "18719091650@163.com"
-    period = "101"
-    code = "17"
-    open_time = datetime.now().strftime("%Y-%m-%d %H%M%S")
+    email = "gzouru@163.com,18719091650@163.com,anjubaoouru@163.com"
+    period = "20181229500"
+    code = "[1, 3, 5]"
+    open_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     send_email(email, period, code, open_time)
