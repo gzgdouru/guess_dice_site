@@ -122,10 +122,10 @@ def parse_info():
                     customPrediction = custom_prediction(history_records[:3])
 
                     total = sum(nums)
-                    if total in (10, 11, 12):
+                    if total == 17:
                         for mobile in mobile_list:
                             open_time = datetime.now().strftime("%Y-%m-%d %H%M%S")
-                            send_sms(mobile, period, total, open_time)
+                            send_sms(mobile, period, str(nums), open_time)
 
                     three_balance = get_money(three_prediction, total, history_records[0].three_balance, is_same_day)
                     five_balance = get_money(five_prediction, total, history_records[0].five_balance, is_same_day)
